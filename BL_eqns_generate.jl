@@ -2,7 +2,7 @@ using DifferentialEquations;
 using Symbolics;
 using Latexify;
 using SymbolicUtils;
-include("NS_eqn_dimensional.jl");
+include("NS_eqn_for_BL.jl");
 
 @variables t ξ η ζ h₁(ξ,η,ζ) h₂(ξ,η,ζ) h₃(ξ,η,ζ) U₁(ξ,η,ζ) U₂(ξ,η,ζ) U₃(ξ,η,ζ) ρ(ξ,η,ζ) ρref Lref Uref Tref κref μref;
 @variables T(ξ,η,ζ) P(ξ,η,ζ) Cₚ Rgas κ(T) μ(T) λ Re γ Mach Pᵣ; 
@@ -57,7 +57,13 @@ K = Symbolics.variables(:K,1:5,1:5);
 
 vars_base = [ρ, U₁, U₂, U₃, T, P, κ, μ];
 
-Eqns_base = NS_eqn_dimensional( t, ξ, η, ζ, h₁, h₂, h₃, vars_base );
+Eqns_base = NS_eqn_for_BL( ξ, η, ζ, h₁, h₂, h₃, vars_base );
+
+@variables r θ z;
+@variables ρcyl(r,θ,z), U₁cyl(r,θ,z), U₂cyl(r,θ,z), U₃cyl(r,θ,z), T(r,θ,z), Pcyl(r,θ,z), κcyl(r,θ,z), μcyl(r,θ,z);
+
+vars_base_cyl = [ρcyl, U₁cyl, U₂cyl, U₃cyl, T, Pcyl, κcyl, μcyl];
+Eqns_base_cyl = NS_eqn_for_BL( r, θ, z, 1, r, 1, vars_base_cyl );
 
 
 ##### Non dimensionalization
@@ -95,7 +101,8 @@ rlist2 = [ ρ*ρref, U₁*Uref, U₂*Uref/sqrt(Re), U₃*Uref, T*Tref, P*ρref*U
 
 
 
-vars_base_non = [ρ*ρref, U₁*Uref, U₂*Uref/sqrt(Re), U₃*Uref, T*Tref, P*ρref*Uref^2, κ*κref, μ*μref];
+# vars_base_non = [ρ*ρref, U₁*Uref, U₂*Uref/sqrt(Re), U₃*Uref, T*Tref, P*ρref*Uref^2, κ*κref, μ*μref];
+
 
 Eqns_base = simplify(expand_derivatives(Eqns_base));
 
@@ -106,14 +113,14 @@ Eqns_base = simplify(expand_derivatives(Eqns_base));
 Eqns_base = substitute(( Symbolics.value(simplify(expand_derivatives(Eqns_base)))),Dict( llist.=>rlist2 ));
 
 
-tc1,tc2 = Symbolics.arguments(Symbolics.value((Eqns_base[1])));
+tc1 = Symbolics.arguments(Symbolics.value((Eqns_base_cyl[2])));
 
 tcc1,tcc2 = Symbolics.arguments(Symbolics.value(simplify(tc1)));
 tccc1 = Symbolics.arguments(Symbolics.value(simplify(tcc1)));
 
 
-ceqn = ( (((tccc1./(tcc2*tc2*(ρref*Uref/Lref)  ))))  );
-latexify(:Ceqn_tr~(( ( ( Symbolics.value( (sum(ceqn) ) ) )))),render = true) |> print;
+ceqn = ( (((tccc1./(tcc2*tc2  ))))  );
+latexify(:Ceqn_tr~(( ( ( Symbolics.value( Eqns_base_cyl[2] ) )))),render = true) |> print;
 
 
 #### mom Eqn_n
