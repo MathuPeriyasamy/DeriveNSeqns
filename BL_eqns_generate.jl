@@ -103,7 +103,6 @@ rlist2 = [ ρ*ρref, U₁*Uref, U₂*Uref/sqrt(Re), U₃*Uref, T*Tref, P*ρref*U
 
 # vars_base_non = [ρ*ρref, U₁*Uref, U₂*Uref/sqrt(Re), U₃*Uref, T*Tref, P*ρref*Uref^2, κ*κref, μ*μref];
 
-
 Eqns_base = simplify(expand_derivatives(Eqns_base));
 
 
