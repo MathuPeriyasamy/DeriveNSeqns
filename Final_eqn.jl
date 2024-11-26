@@ -90,6 +90,18 @@ vars_dist = [ρ + ϵ*δρ, U₁ + ϵ*δu, U₂ + ϵ*δv, U₃ + ϵ*δw, T + ϵ*�
 
 Eqns_dist = NS_eqn( x₁, x₂, x₃, h₁, h₂, h₃, vars_dist );
 
+Eqns_base[1] = expand_derivatives(Eqns_base[1]);
+Eqns_base[2] = expand_derivatives(Eqns_base[2]);
+Eqns_base[3] = expand_derivatives(Eqns_base[3]);
+Eqns_base[4] = expand_derivatives(Eqns_base[4]);
+Eqns_base[5] = expand_derivatives(Eqns_base[5]);
+
+Eqns_dist[1] = expand_derivatives(Eqns_dist[1]);
+Eqns_dist[2] = expand_derivatives(Eqns_dist[2]);
+Eqns_dist[3] = expand_derivatives(Eqns_dist[3]);
+Eqns_dist[4] = expand_derivatives(Eqns_dist[4]);
+Eqns_dist[5] = expand_derivatives(Eqns_dist[5]);
+
 Eqns_base = substitute(( Symbolics.value(Eqns_base)),Dict( llist.=>rlist ));
 Eqns_dist = substitute(( Symbolics.value(Eqns_dist)),Dict( llist.=>rlist ));
 

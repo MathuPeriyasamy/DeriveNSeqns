@@ -40,13 +40,13 @@ ex₁x₃ = simplify( Symbolics.diff2term(( h[3]/h[1]*Dx₁(U[3]/h[3]) + h[1]/h[
 
 
 
-Πx₁x₁ = simplify( Symbolics.diff2term(( 2//3*μ/Re*( 2*ex₁x₁ -ex₂x₂ -ex₃x₃ ) ))) ;
-Πx₂x₂ = simplify( Symbolics.diff2term(( 2//3*μ/Re*( 2*ex₂x₂ -ex₁x₁ -ex₃x₃ ) ))) ;
-Πx₃x₃ = simplify( Symbolics.diff2term(( 2//3*μ/Re*( 2*ex₃x₃ -ex₁x₁ -ex₂x₂ ) ))) ;
+Πx₁x₁ = simplify( Symbolics.diff2term(( 2//3*μ*( 2*ex₁x₁ -ex₂x₂ -ex₃x₃ ) ))) ;
+Πx₂x₂ = simplify( Symbolics.diff2term(( 2//3*μ*( 2*ex₂x₂ -ex₁x₁ -ex₃x₃ ) ))) ;
+Πx₃x₃ = simplify( Symbolics.diff2term(( 2//3*μ*( 2*ex₃x₃ -ex₁x₁ -ex₂x₂ ) ))) ;
 
-Πx₁x₂ = simplify( Symbolics.diff2term(( μ/Re*ex₁x₂ )));
-Πx₂x₃ = simplify( Symbolics.diff2term(( μ/Re*ex₂x₃ )));
-Πx₁x₃ = simplify( Symbolics.diff2term(( μ/Re*ex₁x₃ )));
+Πx₁x₂ = simplify( Symbolics.diff2term(( μ*ex₁x₂ )));
+Πx₂x₃ = simplify( Symbolics.diff2term(( μ*ex₂x₃ )));
+Πx₁x₃ = simplify( Symbolics.diff2term(( μ*ex₁x₃ )));
 
 T2 = [  - 1/h₁*Dx₁(P) + Symbolics.diff2term(( ( 1/(prod(h)).*( Dx₁(h₂*h₃*Πx₁x₁) + Dx₂(h₁*h₃*Πx₁x₂) + Dx₃(h₁*h₂*Πx₁x₃) ) ) )) + Symbolics.diff2term(( ( Πx₁x₂./(h₁*h₂)*Dx₂(h₁) + Πx₁x₃./(h₁*h₃)*Dx₃(h₁) - Πx₂x₂./(h₁*h₂)*Dx₁(h₂) - Πx₃x₃./(h₁*h₃)*Dx₁(h₃) ) ));
         - 1/h₂*Dx₂(P) + Symbolics.diff2term(( ( 1/(prod(h)).*( Dx₁(h₂*h₃*Πx₁x₂) + Dx₂(h₁*h₃*Πx₂x₂) + Dx₃(h₁*h₂*Πx₂x₃) ) ) )) + Symbolics.diff2term(( ( Πx₁x₂./(h₁*h₂)*Dx₁(h₂) + Πx₂x₃./(h₂*h₃)*Dx₃(h₂) - Πx₁x₁./(h₁*h₂)*Dx₂(h₁) - Πx₃x₃./(h₂*h₃)*Dx₂(h₃) ) ));
@@ -60,14 +60,14 @@ Cₚ = 1; # non dimensional
 ET1 = simplify(( ρ*Cₚ*( Dt(T) + U[1]/h[1]*Dx₁(T) + U[2]/h[2]*Dx₂(T) + U[3]/h[3]*Dx₃(T)  )  ));
 
 # ET2 = ( Dt(P) + U[1]/h[1]*Dx₁(P) + U[2]/h[2]*Dx₂(P) + U[3]/h[3]*Dx₃(P)  );
-ET2 = simplify(( (γ-1)*Mach^2*( Dt(P) + U[1]/h[1]*Dx₁(P) + U[2]/h[2]*Dx₂(P) + U[3]/h[3]*Dx₃(P)  )  )); # non dimensional
+ET2 = simplify(( ( Dt(P) + U[1]/h[1]*Dx₁(P) + U[2]/h[2]*Dx₂(P) + U[3]/h[3]*Dx₃(P)  )  )); # non dimensional
 
 # ET3 = 1/(prod(h))*( Dx₁(κ*h[2]*h[3]/h[1]*Dx₁(T)) + Dx₂(κ*h[1]*h[3]/h[2]*Dx₂(T)) + Dx₃(κ*h[1]*h[2]/h[3]*Dx₃(T)) );
-ET3 =  simplify(( 1/(Pᵣ*Re)*( 1/(prod(h))*( Dx₁(κ*h[2]*h[3]/h[1]*Dx₁(T)) + Dx₂(κ*h[1]*h[3]/h[2]*Dx₂(T)) + Dx₃(κ*h[1]*h[2]/h[3]*Dx₃(T)) ) )  )); # non dimensional
+ET3 =  simplify(( 1/(Pᵣ)*( 1/(prod(h))*( Dx₁(κ*h[2]*h[3]/h[1]*Dx₁(T)) + Dx₂(κ*h[1]*h[3]/h[2]*Dx₂(T)) + Dx₃(κ*h[1]*h[2]/h[3]*Dx₃(T)) ) )  )); # non dimensional
 
 # ET4 = μ*( 2*( ex₁x₁.^2 + ex₂x₂.^2 + ex₃x₃.^2 ) + ex₁x₂.^2 + ex₂x₃.^2 + ex₁x₃.^2 -2/3*( ex₁x₁ + ex₂x₂ + ex₃x₃ ).^2 );
 
-ET4 = simplify(( (γ-1)*Mach^2/Re*μ*( 2*( ex₁x₁.^2 + ex₂x₂.^2 + ex₃x₃.^2 ) + ex₁x₂.^2 + ex₂x₃.^2 + ex₁x₃.^2 -2//3*( ex₁x₁ + ex₂x₂ + ex₃x₃ ).^2 ) )); # non dimensional
+ET4 = simplify(( μ*( 2*( ex₁x₁.^2 + ex₂x₂.^2 + ex₃x₃.^2 ) + ex₁x₂.^2 + ex₂x₃.^2 + ex₁x₃.^2 -2//3*( ex₁x₁ + ex₂x₂ + ex₃x₃ ).^2 ) )); # non dimensional
 
 Ceqn = (Symbolics.value(expand_derivatives( Dt(ρ) + ( 1/(prod(h))*( Differential(x[1])(h[2]*h[3]*(ρ*U[1])) + Differential(x[2])(h[1]*h[3]*(ρ*U[2])) + Differential(x[3])(h[1]*h[2]*(ρ*U[3])) )) ) ));
 Meqn = ( (Symbolics.diff2term(expand_derivatives(T1))) - (Symbolics.diff2term(expand_derivatives(T2))) ); #Non dimensional form
