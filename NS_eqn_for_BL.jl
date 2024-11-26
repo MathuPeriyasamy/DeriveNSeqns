@@ -26,17 +26,17 @@ DT = Differential(T);
 # P = ρ*T/(γ*Mach^2);
 
 T1 = ρ*[    simplify( Symbolics.diff2term(( U₁/h₁*Dx₁(U₁) + U₂/h₂*Dx₂(U₁) + U₃/h₃*Dx₃(U₁) + U₁*U₂/(h₁*h₂)*Dx₂(h₁) + U₁*U₃/(h₁*h₃)*Dx₃(h₁) - U₂^2/(h₁*h₂)*Dx₁(h₂) - U₃^2/(h₁*h₃)*Dx₁(h₃) + Dt(U₁) )) );
-            simplify( Symbolics.diff2term(( U₁/h₁*Dx₁(U₂) + U₂/h₂*Dx₂(U₂) + U₃/h₃*Dx₃(U₂) + U₁*U₂/(h₁*h₂)*Dx₁(h₂) + U₂*U₃/(h₂*h₃)*Dx₃(h₂) - U₁^2/(h₁*h₂)*Dx₂(h₁) - U₃^2/(h₂*h₃)*Dx₂(h₃) + Dt(U₂) )) );
+            simplify( Symbolics.diff2term(( Dt(U₂) )) );
             simplify( Symbolics.diff2term(( U₁/h₁*Dx₁(U₃) + U₂/h₂*Dx₂(U₃) + U₃/h₃*Dx₃(U₃) + U₂*U₃/(h₂*h₃)*Dx₂(h₃) + U₁*U₃/(h₁*h₃)*Dx₁(h₃) - U₂^2/(h₂*h₃)*Dx₃(h₂) - U₁^2/(h₁*h₃)*Dx₃(h₁) + Dt(U₃) )) )];
 
 
-ex₁x₁ = simplify( Symbolics.diff2term(( 1/h₁*Dx₁(U[1]) + U[2]/(h₁*h₂)*Dx₂(h₁) + U[3]/(h₁*h₃)*Dx₃(h₁) )));
-ex₂x₂ = simplify( Symbolics.diff2term(( 1/h₂*Dx₂(U[2]) + U[1]/(h₁*h₂)*Dx₁(h₂) + U[3]/(h₂*h₃)*Dx₃(h₂) )));
-ex₃x₃ = simplify( Symbolics.diff2term(( 1/h₃*Dx₃(U[3]) + U[1]/(h₁*h₃)*Dx₁(h₃) + U[2]/(h₂*h₃)*Dx₂(h₃) )));
+ex₁x₁ = simplify( Symbolics.diff2term((  U[2]/(h₁*h₂)*Dx₂(h₁)  )));
+ex₂x₂ = simplify( Symbolics.diff2term((  1/h₂*Dx₂(U[2])   )));
+ex₃x₃ = simplify( Symbolics.diff2term((  U[2]/(h₂*h₃)*Dx₂(h₃) )));
 
-ex₁x₂ = simplify( Symbolics.diff2term(( h[2]/h[1]*Dx₁(U[2]/h[2]) + h[1]/h[2]*Dx₂(U[1]/h[1]) )));
-ex₂x₃ = simplify( Symbolics.diff2term(( h[3]/h[2]*Dx₂(U[3]/h[3]) + h[2]/h[3]*Dx₃(U[2]/h[2]) )));
-ex₁x₃ = simplify( Symbolics.diff2term(( h[3]/h[1]*Dx₁(U[3]/h[3]) + h[1]/h[3]*Dx₃(U[1]/h[1]) )));
+ex₁x₂ = simplify( Symbolics.diff2term(( h[1]/h[2]*Dx₂(U[1]/h[1]) )));
+ex₂x₃ = simplify( Symbolics.diff2term(( h[3]/h[2]*Dx₂(U[3]/h[3])  )));
+ex₁x₃ = simplify( Symbolics.diff2term(( 0 )));
 
 
 
@@ -48,9 +48,9 @@ ex₁x₃ = simplify( Symbolics.diff2term(( h[3]/h[1]*Dx₁(U[3]/h[3]) + h[1]/h[
 Πx₂x₃ = simplify( Symbolics.diff2term(( μ*ex₂x₃ )));
 Πx₁x₃ = simplify( Symbolics.diff2term(( μ*ex₁x₃ )));
 
-T2 = [  - 1/h₁*Dx₁(P) + Symbolics.diff2term(( ( 1/(prod(h)).*( Dx₁(h₂*h₃*Πx₁x₁) + Dx₂(h₁*h₃*Πx₁x₂) + Dx₃(h₁*h₂*Πx₁x₃) ) ) )) + Symbolics.diff2term(( ( Πx₁x₂./(h₁*h₂)*Dx₂(h₁) + Πx₁x₃./(h₁*h₃)*Dx₃(h₁) - Πx₂x₂./(h₁*h₂)*Dx₁(h₂) - Πx₃x₃./(h₁*h₃)*Dx₁(h₃) ) ));
-        - 1/h₂*Dx₂(P) + Symbolics.diff2term(( ( 1/(prod(h)).*( Dx₁(h₂*h₃*Πx₁x₂) + Dx₂(h₁*h₃*Πx₂x₂) + Dx₃(h₁*h₂*Πx₂x₃) ) ) )) + Symbolics.diff2term(( ( Πx₁x₂./(h₁*h₂)*Dx₁(h₂) + Πx₂x₃./(h₂*h₃)*Dx₃(h₂) - Πx₁x₁./(h₁*h₂)*Dx₂(h₁) - Πx₃x₃./(h₂*h₃)*Dx₂(h₃) ) ));
-        - 1/h₃*Dx₃(P) + Symbolics.diff2term(( ( 1/(prod(h)).*( Dx₁(h₂*h₃*Πx₁x₃) + Dx₂(h₁*h₃*Πx₂x₃) + Dx₃(h₁*h₂*Πx₃x₃) ) ) )) + Symbolics.diff2term(( ( Πx₁x₃./(h₁*h₃)*Dx₁(h₃) + Πx₂x₃./(h₂*h₃)*Dx₂(h₃) - Πx₁x₁./(h₁*h₃)*Dx₃(h₁) - Πx₂x₂./(h₂*h₃)*Dx₃(h₂) ) ))];
+T2 = [  - 1/h₁*Dx₁(P) + Symbolics.diff2term(( ( 1/(prod(h)).*(  Dx₂(h₁*h₃*Πx₁x₂)  ) ) )) + Symbolics.diff2term(( ( Πx₁x₂./(h₁*h₂)*Dx₂(h₁)  ) ));
+        - 1/h₂*Dx₂(P) ;
+        - 1/h₃*Dx₃(P) + Symbolics.diff2term(( ( 1/(prod(h)).*(  Dx₂(h₁*h₃*Πx₂x₃)  ) ) )) + Symbolics.diff2term(( (  Πx₂x₃./(h₂*h₃)*Dx₂(h₃)  ) ))];
 
 
 # κ = Cₚ*μ/Pᵣ;
