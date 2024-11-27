@@ -48,9 +48,15 @@ ex₁x₃ = simplify( (( 0 )));
 Πx₂x₃ = simplify( (( μ*ex₂x₃ )));
 Πx₁x₃ = simplify( (( μ*ex₁x₃ )));
 
+<<<<<<< HEAD
 T2 = [  - 1/h₁*Dx₁(P) + (( ( 1/(prod(h)).*(  Dx₂(h₁*h₃*Πx₁x₂)  ) ) )) + (( ( Πx₁x₂./(h₁*h₂)*Dx₂(h₁)  ) ));
         - 1/h₂*Dx₂(P) ;
         - 1/h₃*Dx₃(P) + (( ( 1/(prod(h)).*(  Dx₂(h₁*h₃*Πx₂x₃)  ) ) )) + (( (  Πx₂x₃./(h₂*h₃)*Dx₂(h₃)  ) ))];
+=======
+T2 = [  - 1/h₁*Dx₁(P) + Symbolics.diff2term(( ( 1/(prod(h)).*(  Dx₂(h₁*h₃*Πx₁x₂)  ) ) )) + Symbolics.diff2term(( ( Πx₁x₂./(h₁*h₂)*Dx₂(h₁)  ) ));
+        - 1/h₂*Dx₂(P) ;
+        - 1/h₃*Dx₃(P) + Symbolics.diff2term(( ( 1/(prod(h)).*(  Dx₂(h₁*h₃*Πx₂x₃)  ) ) )) + Symbolics.diff2term(( (  Πx₂x₃./(h₂*h₃)*Dx₂(h₃)  ) ))];
+>>>>>>> 6af94779961f0ef42c01941e8163efe01e139261
 
 
 # κ = Cₚ*μ/Pᵣ;
