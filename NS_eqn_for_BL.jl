@@ -19,7 +19,7 @@ U = [U₁ U₂ U₃];
 
 Dx₁ = Differential(x₁);
 Dx₂ = Differential(x₂);
-Dx₃ = Differential(x₃);1
+Dx₃ = Differential(x₃);
 Dt = Differential(t);
 DT = Differential(T);
 
