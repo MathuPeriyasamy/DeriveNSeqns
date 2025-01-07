@@ -3,7 +3,7 @@ using Symbolics;
 using Latexify;
 using SymbolicUtils;
 include("NS_eqn.jl");
-
+include("NS_eqn_v2.jl");
 @variables t x₁ x₂ x₃ h₁(x₁,x₂,x₃) h₂(x₁,x₂,x₃) h₃(x₁,x₂,x₃) U₁(x₁,x₂,x₃) U₂(x₁,x₂,x₃) U₃(x₁,x₂,x₃) ρ(x₁,x₂,x₃) ;
 @variables T(x₁,x₂,x₃) P(x₁,x₂,x₃) Cₚ Rgas κ(T) μ(T) λ Re γ Mach Pᵣ; 
 
@@ -26,8 +26,8 @@ include("NS_eqn.jl");
 @variables μ_T κ_T μ_TT κ_TT;
 
 # h₁ = 1; h₂ = 1; h₃ = 1;
-# h = [h₁ h₂ h₃];
-# x = [x₁ x₂ x₃];
+h = [h₁ h₂ h₃];
+x = [x₁ x₂ x₃];
 # U = [U₁ U₂ U₃];
 
 Dx₁ = Differential(x₁);
@@ -84,7 +84,8 @@ K = Symbolics.variables(:K,1:5,1:5);
 
 vars_base = [ρ, U₁, U₂, U₃, T, P, κ, μ];
 
-Eqns_base = NS_eqn( x₁, x₂, x₃, h₁, h₂, h₃, vars_base );
+# Eqns_base = NS_eqn( x₁, x₂, x₃, h₁, h₂, h₃, vars_base );
+Eqns_base = NS_eqn_v2( x, h, vars_base );
 dist_pars = [δρ, δu, δv, δw, δT];
 vars_dist = [ρ + ϵ*δρ, U₁ + ϵ*δu, U₂ + ϵ*δv, U₃ + ϵ*δw, T + ϵ*δT, P + ϵ*δP, κ + DT(κ)*(ϵ*δT) , μ + DT(μ)*(ϵ*δT)];
 

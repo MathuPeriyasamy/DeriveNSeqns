@@ -10,7 +10,7 @@ using SymbolicUtils;
 # U = [U1 U2 U3];
 
 ## Cylindrical CS
-@variables t r θ z h1(r,θ,z) h2(r,θ,z) h3(r,θ,z) U1(r,θ,z) U2(r,θ,z) U3(r,θ,z) Ur(r,θ,z) Uth(r,θ,z) Uz(r,θ,z) ρ T(r,θ,z) P(r,θ,z) Cp Rgas κ(T) μ λ Re γ Mach Pr ϵ;
+@variables t r θ z h1(r,θ,z) h2(r,θ,z) h3(r,θ,z) U1(r,θ,z) U2(r,θ,z) U3(r,θ,z) Ur(r,θ,z) Uth(r,θ,z) Uz(r,θ,z) ρ(r,θ,z) T(r,θ,z) P(r,θ,z) Cp Rgas κ(T) μ λ Re γ Mach Pr ϵ;
 @variables δU1(r,θ,z)
 h = [1 r 1];
 x = [r θ z];
@@ -69,9 +69,9 @@ erθ = ( expand_derivatives(( h[2]/h[1]*Dr(U[2]/h[2]) + h[1]/h[2]*Dθ(U[1]/h[1])
 eθz = ( expand_derivatives(( h[3]/h[2]*Dθ(U[3]/h[3]) + h[2]/h[3]*Dz(U[2]/h[2]) )));
 erz = ( expand_derivatives(( h[3]/h[1]*Dr(U[3]/h[3]) + h[1]/h[3]*Dz(U[1]/h[1]) )));
 
-Πrr = ( expand_derivatives(( μ/Re*( err -eθθ -ezz ) )));
-Πθθ = ( expand_derivatives(( μ/Re*( eθθ -err -ezz ) )));
-Πzz = ( expand_derivatives(( μ/Re*( ezz -err -eθθ ) )));
+Πrr = ( expand_derivatives(( 2//3*μ/Re*( 2*err -eθθ -ezz ) )));
+Πθθ = ( expand_derivatives(( 2//3*μ/Re*( 2*eθθ -err -ezz ) )));
+Πzz = ( expand_derivatives(( 2//3*μ/Re*( 2*ezz -err -eθθ ) )));
 
 Πrθ = ( expand_derivatives(( μ/Re*erθ )));
 Πθz = ( expand_derivatives(( μ/Re*eθz )));
@@ -128,8 +128,8 @@ Eqns_base = substitute(( (Eqns_base)),Dict( llist.=>rlist ));
 open("Test.txt","w") do file    
     println(file,"eqns = ",replace(string(simplify(Symbolics.coeff( Eqns_base[4],μ )) ),"μ(T)"=>"μ","(r, θ, z)"=>"") );    
 end         
-umomeqn = replace(string(simplify(( Eqns_base[2] )) ),"μ(T)"=>"μ","(r, θ, z)"=>"");
+eqn = replace(string(simplify(Symbolics.coeff( Eqns_base[5],μ )) ),"μ(T)"=>"μ","(r, θ, z)"=>"");
 open("Test_latexify.txt","w") do file    
-    println(file,latexify(umomeqn) );    
+    println(file,latexify(eqn) );    
 end   
 
