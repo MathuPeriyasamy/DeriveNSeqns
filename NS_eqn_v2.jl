@@ -5,7 +5,7 @@ function NS_eqn_v2( x, h, vars )
 # using Latexify;
 # using SymbolicUtils;
 
-@variables t Ec
+@variables t Ec Cₚ Rgas λ Re γ Mach Pr; 
 
 x1 = x[1];
 x2 = x[2];
@@ -30,24 +30,24 @@ P = vars[6];
 U = [U1 U2 U3];
 
 ## The derivative variables
-@variables h1x1 h2x1 h3x1 h1x2 h2x2 h3x2 h1x3 h2x3 h3x3;
-@variables h1x1x1 h2x1x1 h3x1x1 h1x2x2 h2x2x2 h3x2x2 h1x3x3 h2x3x3 h3x3x3;
-@variables h1x1x2 h2x1x2 h3x1x2 h1x2x3 h2x2x3 h3x2x3 h1x1x3 h2x1x3 h3x1x3;
-# @variables h1x2x1 h2x2x1 h3x2x1 h1x3x2 h2x3x2 h3x3x2 h1x3x1 h2x3x1 h3x3x1;
+# @variables h1x1 h2x1 h3x1 h1x2 h2x2 h3x2 h1x3 h2x3 h3x3;
+# @variables h1x1x1 h2x1x1 h3x1x1 h1x2x2 h2x2x2 h3x2x2 h1x3x3 h2x3x3 h3x3x3;
+# @variables h1x1x2 h2x1x2 h3x1x2 h1x2x3 h2x2x3 h3x2x3 h1x1x3 h2x1x3 h3x1x3;
+# # @variables h1x2x1 h2x2x1 h3x2x1 h1x3x2 h2x3x2 h3x3x2 h1x3x1 h2x3x1 h3x3x1;
 
-@variables U1x1 U2x1 U3x1 U1x2 U2x2 U3x2 U1x3 U2x3 U3x3;
-@variables U1x1x1 U2x1x1 U3x1x1 U1x2x2 U2x2x2 U3x2x2 U1x3x3 U2x3x3 U3x3x3;
-@variables U1x1x2 U2x1x2 U3x1x2 U1x2x3 U2x2x3 U3x2x3 U1x1x3 U2x1x3 U3x1x3;
-# @variables U1x2x1 U2x2x1 U3x2x1 U1x3x2 U2x3x2 U3x3x2 U1x3x1 U2x3x1 U3x3x1;
+# @variables U1x1 U2x1 U3x1 U1x2 U2x2 U3x2 U1x3 U2x3 U3x3;
+# @variables U1x1x1 U2x1x1 U3x1x1 U1x2x2 U2x2x2 U3x2x2 U1x3x3 U2x3x3 U3x3x3;
+# @variables U1x1x2 U2x1x2 U3x1x2 U1x2x3 U2x2x3 U3x2x3 U1x1x3 U2x1x3 U3x1x3;
+# # @variables U1x2x1 U2x2x1 U3x2x1 U1x3x2 U2x3x2 U3x3x2 U1x3x1 U2x3x1 U3x3x1;
 
-@variables Tx1 Tx2 Tx3;
-@variables Tx1x1 Tx2x2 Tx3x3;
-@variables Tx1x2 Tx2x3 Tx1x3;
-# @variables Tx2x1 Tx3x2 Tx3x1;
+# @variables Tx1 Tx2 Tx3;
+# @variables Tx1x1 Tx2x2 Tx3x3;
+# @variables Tx1x2 Tx2x3 Tx1x3;
+# # @variables Tx2x1 Tx3x2 Tx3x1;
 
-@variables ρx1 ρx2 ρx3;
-@variables ρx1x1 ρx2x2 ρx3x3;
-@variables ρx1x2 ρx2x3 ρx1x3;
+# @variables ρx1 ρx2 ρx3;
+# @variables ρx1x1 ρx2x2 ρx3x3;
+# @variables ρx1x2 ρx2x3 ρx1x3;
 # @variables ρx2x1 ρx3x2 ρx3x1;
 
 @variables μ_T κ_T μ_TT κ_TT;
